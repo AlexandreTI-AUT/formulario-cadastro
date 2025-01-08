@@ -4,12 +4,14 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     background-color: #f0f4f8;
 }
 
 .container {
-    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
 }
 
 .formulario {
@@ -17,7 +19,12 @@ body {
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 400px;
+    width: 100%;
+}
+
+.formulario h1 {
+    text-align: center;
+    margin-bottom: 30px;
 }
 
 .formulario div {
@@ -25,16 +32,13 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 100%;
 }
 
 .formulario label {
     font-size: 16px;
     margin-bottom: 8px;
     display: inline-block;
-}
-
-.formulario input[type="checkbox"] {
-    margin-bottom: 8px;
 }
 
 .formulario input[type="text"],
@@ -51,31 +55,83 @@ body {
 
 .formulario textarea {
     resize: vertical;
-    /* Permite redimensionamento vertical */
+    min-height: 100px;
 }
 
-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 12px 24px;
+.genero-opcoes {
+    display: flex;
+    gap: 20px;
+    margin-top: 8px;
+}
+
+.genero-opcoes label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 0;
     cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-    width: 100%;
 }
 
-button:hover {
+/* Estilização do grupo de botões */
+.formulario .button-group {
+    flex-direction: row !important;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.button-group button {
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    flex: 1;
+    /* Faz com que os botões ocupem o mesmo espaço */
+    min-width: 120px;
+    /* Garante uma largura mínima */
+}
+
+.button-group .btn-reset {
+    background-color: #6c757d;
+}
+
+.button-group button[type="submit"] {
+    background-color: #007bff;
+}
+
+.button-group .btn-reset:hover {
+    background-color: #5a6268;
+}
+
+.button-group button[type="submit"]:hover {
     background-color: #0056b3;
 }
-
-.message {
+.success-message {
+    background-color: #28a745;
+    color: white;
+    padding: 15px;
+    border-radius: 4px;
     margin-top: 20px;
-    color: #28a745;
+    text-align: center;
     font-weight: bold;
-    font-size: 16px;
 }
-.formulario .error-message {
-    color: red;
+
+.error-message {
+    background-color: #dc3545;
+    color: white;
+    padding: 15px;
+    border-radius: 4px;
+    margin-top: 20px;
+    text-align: center;
     font-weight: bold;
+}
+
+span {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 5px;
 }
