@@ -1,15 +1,17 @@
 {
   "files": {
-    "main.css": "/formulario-cadastro/static/css/main.3b0be34a.css",
-    "main.js": "/formulario-cadastro/static/js/main.4f9f4a5f.js",
-    "static/js/488.b898cee0.chunk.js": "/formulario-cadastro/static/js/488.b898cee0.chunk.js",
+    "main.css": "/formulario-cadastro/static/css/main.65cfcf69.chunk.css",
+    "main.js": "/formulario-cadastro/static/js/main.0cfddbae.chunk.js",
+    "main.js.map": "/formulario-cadastro/static/js/main.0cfddbae.chunk.js.map",
+    "runtime~main.js": "/formulario-cadastro/static/js/runtime~main.200bb1cb.js",
+    "runtime~main.js.map": "/formulario-cadastro/static/js/runtime~main.200bb1cb.js.map",
+    "static/js/2.e714d09e.chunk.js": "/formulario-cadastro/static/js/2.e714d09e.chunk.js",
+    "static/js/2.e714d09e.chunk.js.map": "/formulario-cadastro/static/js/2.e714d09e.chunk.js.map",
+    "static/js/3.e13311ee.chunk.js": "/formulario-cadastro/static/js/3.e13311ee.chunk.js",
+    "static/js/3.e13311ee.chunk.js.map": "/formulario-cadastro/static/js/3.e13311ee.chunk.js.map",
     "index.html": "/formulario-cadastro/index.html",
-    "main.3b0be34a.css.map": "/formulario-cadastro/static/css/main.3b0be34a.css.map",
-    "main.4f9f4a5f.js.map": "/formulario-cadastro/static/js/main.4f9f4a5f.js.map",
-    "488.b898cee0.chunk.js.map": "/formulario-cadastro/static/js/488.b898cee0.chunk.js.map"
-  },
-  "entrypoints": [
-    "static/css/main.3b0be34a.css",
-    "static/js/main.4f9f4a5f.js"
-  ]
+    "precache-manifest.73ad4d1eb937e04de04b3635717d67e8.js": "/formulario-cadastro/precache-manifest.73ad4d1eb937e04de04b3635717d67e8.js",
+    "service-worker.js": "/formulario-cadastro/service-worker.js",
+    "static/css/main.65cfcf69.chunk.css.map": "/formulario-cadastro/static/css/main.65cfcf69.chunk.css.map"
+  }
 }
