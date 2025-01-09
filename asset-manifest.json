@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/formulario-cadastro/static/css/main.fb3d6047.css",
-    "main.js": "/formulario-cadastro/static/js/main.8e51f569.js",
+    "main.css": "/formulario-cadastro/static/css/main.3b0be34a.css",
+    "main.js": "/formulario-cadastro/static/js/main.4f9f4a5f.js",
     "static/js/488.b898cee0.chunk.js": "/formulario-cadastro/static/js/488.b898cee0.chunk.js",
     "index.html": "/formulario-cadastro/index.html",
-    "main.fb3d6047.css.map": "/formulario-cadastro/static/css/main.fb3d6047.css.map",
-    "main.8e51f569.js.map": "/formulario-cadastro/static/js/main.8e51f569.js.map",
+    "main.3b0be34a.css.map": "/formulario-cadastro/static/css/main.3b0be34a.css.map",
+    "main.4f9f4a5f.js.map": "/formulario-cadastro/static/js/main.4f9f4a5f.js.map",
     "488.b898cee0.chunk.js.map": "/formulario-cadastro/static/js/488.b898cee0.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.fb3d6047.css",
-    "static/js/main.8e51f569.js"
+    "static/css/main.3b0be34a.css",
+    "static/js/main.4f9f4a5f.js"
   ]
 }
