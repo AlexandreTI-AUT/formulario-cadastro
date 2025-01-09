@@ -51,6 +51,7 @@ body {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
+    transition: border-color 0.3s ease;
 }
 
 .formulario textarea {
@@ -90,9 +91,7 @@ body {
     color: white;
     cursor: pointer;
     flex: 1;
-    /* Faz com que os botões ocupem o mesmo espaço */
     min-width: 120px;
-    /* Garante uma largura mínima */
 }
 
 .button-group .btn-reset {
@@ -110,6 +109,7 @@ body {
 .button-group button[type="submit"]:hover {
     background-color: #0056b3;
 }
+
 .success-message {
     background-color: #28a745;
     color: white;
@@ -134,4 +134,95 @@ span {
     color: #dc3545;
     font-size: 14px;
     margin-top: 5px;
+}
+
+/* Estilos para validação visual */
+/* Estilos para validação visual */
+.input-error {
+    border-color: #dc3545 !important;
+    background-color: #fff !important;
+    box-shadow: 0 0 0 1px #dc3545;
+}
+
+.input-success {
+    border-color: #28a745 !important;
+    background-color: #fff !important;
+    box-shadow: 0 0 0 1px #28a745;
+}
+
+/* Estilo para o asterisco de campo obrigatório */
+.required {
+    color: #dc3545;
+    margin-left: 3px;
+    font-weight: bold;
+}
+
+/* Observação sobre campos obrigatórios */
+.formulario::after {
+    content: "* Campos obrigatórios";
+    display: block;
+    color: #666;
+    font-size: 12px;
+    margin-top: 20px;
+    text-align: right;
+}
+
+/* Estilos para o indicador de força da senha */
+.senha-forca {
+    margin-top: 5px;
+}
+
+.forca-barra {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.forca-nivel {
+    height: 4px;
+    flex: 1;
+    background-color: #ddd;
+    border-radius: 2px;
+}
+
+.forca-nivel.ativo:nth-child(1) {
+    background-color: #dc3545;
+}
+
+.forca-nivel.ativo:nth-child(2) {
+    background-color: #ffc107;
+}
+
+.forca-nivel.ativo:nth-child(3) {
+    background-color: #ffc107;
+}
+
+.forca-nivel.ativo:nth-child(4) {
+    background-color: #28a745;
+}
+
+.forca-nivel.ativo:nth-child(5) {
+    background-color: #28a745;
+}
+
+.forca-texto {
+    color: #666;
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
+}
+
+/* Ajuste para transições suaves */
+.formulario input,
+.formulario textarea,
+.button-group button {
+    transition: all 0.3s ease;
+}
+
+/* Ajuste para o foco dos inputs */
+.formulario input:focus,
+.formulario textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 1px #007bff;
 }
