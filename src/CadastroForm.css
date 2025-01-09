@@ -68,22 +68,15 @@ body {
     background: white;
 }
 
-.formulario textarea {
-    resize: vertical;
-    min-height: 100px;
+.input-container input {
+    width: 100%;
+    padding: 12px 12px 12px 45px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background: white;
 }
-
-/* Ajuste específico para textarea */
-.input-container textarea {
-    min-height: 100px;
-    padding-top: 35px;
-}
-
-.input-container textarea~.input-icon {
-    top: 15px;
-    transform: none;
-}
-
 .genero-opcoes {
     display: flex;
     gap: 20px;
