@@ -1,5 +1,15 @@
 import React, { useState } from "react";
 import "./CadastroForm.css";
+import {
+  FaUser,
+  FaEnvelope,
+  FaPhone,
+  FaCalendar,
+  FaLock,
+  FaEye,
+  FaEyeSlash,
+  FaComment,
+} from "react-icons/fa";
 
 const INITIAL_FORM_STATE = {
   nome: "",
@@ -65,13 +75,16 @@ const validators = {
 };
 
 const CadastroForm = () => {
+  // Estados
   const [form, setForm] = useState(INITIAL_FORM_STATE);
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [message, setMessage] = useState("");
   const [forcaSenha, setForcaSenha] = useState(0);
   const [touched, setTouched] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
 
+  // Funções
   const validate = () => {
     const newErrors = {};
     Object.keys(form).forEach((field) => {
@@ -84,11 +97,6 @@ const CadastroForm = () => {
     });
     setErrors(newErrors);
     return Object.values(newErrors).every((error) => !error);
-  };
-
-  const validateField = (name, value) => {
-    const validator = validators[name];
-    return validator ? validator(value) : "";
   };
 
   const handleChange = (e) => {
@@ -109,6 +117,11 @@ const CadastroForm = () => {
     setMessage("");
   };
 
+  const validateField = (name, value) => {
+    const validator = validators[name];
+    return validator ? validator(value) : "";
+  };
+
   const handleBlur = (e) => {
     const { name, value } = e.target;
     setTouched((prev) => ({ ...prev, [name]: true }));
@@ -120,7 +133,6 @@ const CadastroForm = () => {
     e.preventDefault();
     setSubmitted(true);
 
-    // Marca todos os campos como tocados
     const allFieldsTouched = {};
     Object.keys(form).forEach((field) => {
       allFieldsTouched[field] = true;
@@ -151,6 +163,10 @@ const CadastroForm = () => {
     return textos[forcaSenha - 1] || "";
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="container">
       <form onSubmit={handleSubmit} className="formulario">
@@ -160,21 +176,25 @@ const CadastroForm = () => {
           <label>
             Nome: <span className="required">*</span>
           </label>
-          <input
-            type="text"
-            name="nome"
-            value={form.nome}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            data-testid="input-nome"
-            className={
-              touched.nome || submitted
-                ? errors.nome
-                  ? "input-error"
-                  : "input-success"
-                : ""
-            }
-          />
+          <div className="input-container">
+            <FaUser className="input-icon" />
+            <input
+              type="text"
+              name="nome"
+              value={form.nome}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder=""
+              data-testid="input-nome"
+              className={
+                touched.nome || submitted
+                  ? errors.nome
+                    ? "input-error"
+                    : "input-success"
+                  : ""
+              }
+            />
+          </div>
           {(touched.nome || submitted) && errors.nome && (
             <span>{errors.nome}</span>
           )}
@@ -184,21 +204,25 @@ const CadastroForm = () => {
           <label>
             Email: <span className="required">*</span>
           </label>
-          <input
-            type="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            data-testid="input-email"
-            className={
-              touched.email || submitted
-                ? errors.email
-                  ? "input-error"
-                  : "input-success"
-                : ""
-            }
-          />
+          <div className="input-container">
+            <FaEnvelope className="input-icon" />
+            <input
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder=""
+              data-testid="input-email"
+              className={
+                touched.email || submitted
+                  ? errors.email
+                    ? "input-error"
+                    : "input-success"
+                  : ""
+              }
+            />
+          </div>
           {(touched.email || submitted) && errors.email && (
             <span>{errors.email}</span>
           )}
@@ -208,47 +232,52 @@ const CadastroForm = () => {
           <label>
             Telefone (Brasil): <span className="required">*</span>
           </label>
-          <input
-            type="text"
-            name="telefone"
-            placeholder="(XX) XXXXX-XXXX"
-            value={form.telefone}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            data-testid="input-telefone"
-            className={
-              touched.telefone || submitted
-                ? errors.telefone
-                  ? "input-error"
-                  : "input-success"
-                : ""
-            }
-          />
-          {(touched.telefone || submitted) && errors.telefone && (
-            <span>{errors.telefone}</span>
-          )}
-        </div>
 
-        <div>
+          <div className="input-container">
+            <FaPhone className="input-icon" />
+            <input
+              type="text"
+              name="telefone"
+              value={form.telefone}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder=""
+              data-testid="input-telefone"
+              className={
+                touched.telefone || submitted
+                  ? errors.telefone
+                    ? "input-error"
+                    : "input-success"
+                  : ""
+              }
+            />
+            {!form.telefone && (
+              <div className="input-mask">(XX) XXXXX-XXXX</div>
+            )}
+          </div>
           <label>
             Data de Nascimento: <span className="required">*</span>
           </label>
-          <input
-            type="text"
-            name="nascimento"
-            placeholder="dd/mm/yyyy"
-            value={form.nascimento}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            data-testid="input-nascimento"
-            className={
-              touched.nascimento || submitted
-                ? errors.nascimento
-                  ? "input-error"
-                  : "input-success"
-                : ""
-            }
-          />
+          <div className="input-container">
+            <FaCalendar className="input-icon" />
+            <input
+              type="text"
+              name="nascimento"
+              value={form.nascimento}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder=""
+              data-testid="input-nascimento"
+              className={
+                touched.nascimento || submitted
+                  ? errors.nascimento
+                    ? "input-error"
+                    : "input-success"
+                  : ""
+              }
+            />
+            {!form.nascimento && <div className="input-mask">DD/MM/AAAA</div>}
+          </div>
           {(touched.nascimento || submitted) && errors.nascimento && (
             <span>{errors.nascimento}</span>
           )}
@@ -280,17 +309,24 @@ const CadastroForm = () => {
 
         <div>
           <label>Comentário (até 250 caracteres):</label>
-          <textarea
-            name="comentario"
-            value={form.comentario}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            maxLength={250}
-            data-testid="input-comentario"
-            className={
-              touched.comentario && errors.comentario ? "input-error" : ""
-            }
-          />
+          <div className="input-container">
+            <FaComment className="input-icon" />
+            <textarea
+              name="comentario"
+              value={form.comentario}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              maxLength={250}
+              placeholder=""
+              data-testid="input-comentario"
+              className={
+                touched.comentario && errors.comentario ? "input-error" : ""
+              }
+            />
+          </div>
+          <div className="caracteres-contador">
+            {form.comentario.length}/250 caracteres
+          </div>
           {(touched.comentario || submitted) && errors.comentario && (
             <span>{errors.comentario}</span>
           )}
@@ -300,21 +336,32 @@ const CadastroForm = () => {
           <label>
             Senha: <span className="required">*</span>
           </label>
-          <input
-            type="password"
-            name="senha"
-            value={form.senha}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            data-testid="input-senha"
-            className={
-              touched.senha || submitted
-                ? errors.senha
-                  ? "input-error"
-                  : "input-success"
-                : ""
-            }
-          />
+          <div className="input-container">
+            <FaLock className="input-icon" />
+            <input
+              type={showPassword ? "text" : "password"}
+              name="senha"
+              value={form.senha}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder=""
+              data-testid="input-senha"
+              className={
+                touched.senha || submitted
+                  ? errors.senha
+                    ? "input-error"
+                    : "input-success"
+                  : ""
+              }
+            />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="toggle-password"
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
           {form.senha && (
             <div className="senha-forca">
               <div className="forca-barra">

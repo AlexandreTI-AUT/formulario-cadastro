@@ -41,22 +41,47 @@ body {
     display: inline-block;
 }
 
-.formulario input[type="text"],
-.formulario input[type="email"],
-.formulario input[type="password"],
-.formulario textarea {
+.input-container {
+    position: relative;
     width: 100%;
-    padding: 12px;
+}
+
+.input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+    font-size: 16px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.input-container input,
+.input-container textarea {
+    width: 100%;
+    padding: 12px 12px 12px 45px;
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-    transition: border-color 0.3s ease;
+    background: white;
 }
 
 .formulario textarea {
     resize: vertical;
     min-height: 100px;
+}
+
+/* Ajuste específico para textarea */
+.input-container textarea {
+    min-height: 100px;
+    padding-top: 35px;
+}
+
+.input-container textarea~.input-icon {
+    top: 15px;
+    transform: none;
 }
 
 .genero-opcoes {
@@ -130,14 +155,28 @@ body {
     font-weight: bold;
 }
 
-span {
-    color: #dc3545;
-    font-size: 14px;
-    margin-top: 5px;
+/* Estilo para o botão de toggle da senha */
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
 }
 
-/* Estilos para validação visual */
-/* Estilos para validação visual */
+.toggle-password:hover {
+    color: #333;
+}
+
+/* Validação visual */
 .input-error {
     border-color: #dc3545 !important;
     background-color: #fff !important;
@@ -148,23 +187,6 @@ span {
     border-color: #28a745 !important;
     background-color: #fff !important;
     box-shadow: 0 0 0 1px #28a745;
-}
-
-/* Estilo para o asterisco de campo obrigatório */
-.required {
-    color: #dc3545;
-    margin-left: 3px;
-    font-weight: bold;
-}
-
-/* Observação sobre campos obrigatórios */
-.formulario::after {
-    content: "* Campos obrigatórios";
-    display: block;
-    color: #666;
-    font-size: 12px;
-    margin-top: 20px;
-    text-align: right;
 }
 
 /* Estilos para o indicador de força da senha */
@@ -212,17 +234,63 @@ span {
     display: block;
 }
 
-/* Ajuste para transições suaves */
-.formulario input,
-.formulario textarea,
-.button-group button {
-    transition: all 0.3s ease;
+/* Contador de caracteres */
+.caracteres-contador {
+    text-align: right;
+    color: #666;
+    font-size: 12px;
+    margin-top: 4px;
 }
 
-/* Ajuste para o foco dos inputs */
+/* Campo obrigatório */
+.required {
+    color: #dc3545;
+    margin-left: 3px;
+    font-weight: bold;
+}
+
+/* Mensagem de campos obrigatórios */
+.formulario::after {
+    content: "* Campos obrigatórios";
+    display: block;
+    color: #666;
+    font-size: 12px;
+    margin-top: 20px;
+    text-align: right;
+}
+
+span {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Ajuste para foco dos inputs */
 .formulario input:focus,
 .formulario textarea:focus {
     outline: none;
     border-color: #007bff;
     box-shadow: 0 0 0 1px #007bff;
+}
+
+/* Máscara visual para campos de data e telefone */
+.input-mask {
+    position: absolute;
+    left: 45px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    pointer-events: none;
+    font-size: 14px;
+    z-index: 1;
+}
+
+/* Controle de visibilidade da máscara */
+.input-container input:not(:placeholder-shown)+.input-mask,
+.input-container input:focus+.input-mask {
+    display: none;
+}
+
+.input-container input+.input-mask {
+    display: block;
 }
