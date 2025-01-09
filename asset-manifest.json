@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/formulario-cadastro/static/css/main.65cfcf69.chunk.css",
+    "main.css": "/formulario-cadastro/static/css/main.074d604d.chunk.css",
     "main.js": "/formulario-cadastro/static/js/main.0cfddbae.chunk.js",
     "main.js.map": "/formulario-cadastro/static/js/main.0cfddbae.chunk.js.map",
     "runtime~main.js": "/formulario-cadastro/static/js/runtime~main.200bb1cb.js",
@@ -10,8 +10,8 @@
     "static/js/3.e13311ee.chunk.js": "/formulario-cadastro/static/js/3.e13311ee.chunk.js",
     "static/js/3.e13311ee.chunk.js.map": "/formulario-cadastro/static/js/3.e13311ee.chunk.js.map",
     "index.html": "/formulario-cadastro/index.html",
-    "precache-manifest.73ad4d1eb937e04de04b3635717d67e8.js": "/formulario-cadastro/precache-manifest.73ad4d1eb937e04de04b3635717d67e8.js",
+    "precache-manifest.5819a47f2975445cb03c510aa3c6ae8a.js": "/formulario-cadastro/precache-manifest.5819a47f2975445cb03c510aa3c6ae8a.js",
     "service-worker.js": "/formulario-cadastro/service-worker.js",
-    "static/css/main.65cfcf69.chunk.css.map": "/formulario-cadastro/static/css/main.65cfcf69.chunk.css.map"
+    "static/css/main.074d604d.chunk.css.map": "/formulario-cadastro/static/css/main.074d604d.chunk.css.map"
   }
 }
