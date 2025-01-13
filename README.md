@@ -1,91 +1,209 @@
-# Formulário de Cadastro
+# Formulário de Cadastro - Documentação
 
-Este formulário de cadastro contém campos que são validados antes de ser enviado. A seguir estão as regras para cada campo do formulário.
+## 📝 Descrição
+Este é um formulário de cadastro desenvolvido em React com validações em tempo real, formatação automática e feedback visual para o usuário.
 
-## Campos do Formulário
+## 🚀 Tecnologias Utilizadas
+- React.js
+- CSS3
+- React Icons
 
-### 1. **Nome**
-- **Requisito**: O campo `Nome` é obrigatório.
-- **Validação**: Não pode estar vazio. Caso esteja vazio, será exibida uma mensagem de erro: `"Nome é obrigatório"`.
+## 🔍 Campos e Validações
 
-### 2. **Email**
-- **Requisito**: O campo `Email` deve seguir o formato de um endereço de email válido.
-- **Validação**: O email será validado usando uma expressão regular que verifica o formato básico de um email (`exemplo@dominio.com`).
-  - Caso o formato seja inválido, a mensagem de erro será: `"Email inválido"`.
+### Nome
+```javascript
+- Tipo: Texto
+- Obrigatório: Sim
+- Validações:
+  * Não pode estar vazio
+- Feedback: Visual em tempo real com cores de sucesso/erro
+```
 
-### 3. **Telefone**
-- **Requisito**: O campo `Telefone` deve ser preenchido com um número de telefone no formato brasileiro.
-- **Validação**: O número pode ser inserido no formato com ou sem parênteses e traços:
-  - Formato aceito: `(XX) XXXXX-XXXX` ou `XXXXXXXXXXX`.
-  - Caso o número seja inválido, a mensagem de erro será: `"Telefone inválido"`.
-  
-### 4. **Data de Nascimento**
-- **Requisito**: O campo `Data de Nascimento` deve ser preenchido.
-- **Validação**: A data de nascimento pode ser inserida de duas formas:
-  - Formato `dd/mm/yyyy` ou `ddmmyyyy`.
-  - Caso a data seja inválida, a mensagem de erro será: `"Data de nascimento inválida"`.
+### Email
+```javascript
+- Tipo: Email
+- Obrigatório: Sim
+- Validações:
+  * Formato válido (deve conter @ e domínio)
+  * Não pode estar vazio
+- Feedback: Visual em tempo real com cores de sucesso/erro
+```
 
-### 5. **Gênero**
-- **Requisito**: O campo `Gênero` é obrigatório.
-- **Validação**: O usuário deve escolher uma das opções de gênero:
-  - Masculino
-  - Feminino
-  - Outro
-  - Caso nenhuma opção seja selecionada, a mensagem de erro será: `"Selecione um gênero"`.
+### Telefone
+```javascript
+- Tipo: Texto com máscara
+- Obrigatório: Sim
+- Formato: (XX) XXXXX-XXXX
+- Validações:
+  * Formato brasileiro válido
+  * Exatamente 11 dígitos numéricos
+  * Apenas números são aceitos (outros caracteres são removidos automaticamente)
+- Formatação Automática:
+  * Insere parênteses após DDD
+  * Insere hífen antes dos últimos 4 dígitos
+  * Máscara visual quando vazio: (XX) XXXXX-XXXX
+- Feedback: Visual em tempo real
+```
 
-### 6. **Comentário**
-- **Requisito**: O campo `Comentário` é opcional.
-- **Validação**: O comentário não pode exceder 250 caracteres.
-  - Caso o comentário ultrapasse esse limite, a mensagem de erro será: `"Comentário excedeu o limite de 250 caracteres"`.
+### Data de Nascimento
+```javascript
+- Tipo: Texto com máscara
+- Obrigatório: Sim
+- Formato: DD/MM/AAAA
+- Validações:
+  * Formato válido
+  * Data existente (considera meses com 30/31 dias e anos bissextos)
+  * Não pode ser data futura
+  * Idade mínima de 13 anos
+  * Apenas números são aceitos
+- Formatação Automática:
+  * Insere barras (/) automaticamente
+  * Máscara visual quando vazio: DD/MM/AAAA
+- Feedback: Visual em tempo real
+```
 
-### 7. **Senha**
-- **Requisito**: O campo `Senha` deve ter pelo menos 6 caracteres.
-- **Validação**: A senha deve ter 6 ou mais caracteres.
-  - Caso a senha tenha menos de 6 caracteres, a mensagem de erro será: `"Senha deve ter pelo menos 6 caracteres"`.
+### Gênero
+```javascript
+- Tipo: Radio buttons
+- Obrigatório: Sim
+- Opções: 
+  * Masculino
+  * Feminino
+  * Outro
+- Validações:
+  * Uma opção deve ser selecionada
+- Feedback: Mensagem de erro quando necessário
+```
 
-## Mensagens de Erro
-- **Erro na validação do formulário**: Se algum dos campos não passar na validação, a mensagem de erro será exibida em vermelho, como `"Erro na validação do formulário."`.
-- **Sucesso**: Quando o formulário é validado corretamente, a mensagem de sucesso será exibida em verde, como `"Formulário enviado com sucesso!"`.
+### Senha
+```javascript
+- Tipo: Password com toggle de visibilidade
+- Obrigatório: Sim
+- Validações:
+  * Mínimo 6 caracteres
+- Medidor de Força (pontuação):
+  * +1 ponto: Comprimento mínimo (6 caracteres)
+  * +1 ponto: Contém letra maiúscula
+  * +1 ponto: Contém letra minúscula
+  * +1 ponto: Contém número
+  * +1 ponto: Contém caractere especial
+- Níveis de Força:
+  * 1 ponto: Muito fraca
+  * 2 pontos: Fraca
+  * 3 pontos: Média
+  * 4 pontos: Forte
+  * 5 pontos: Muito forte
+- Feedback: 
+  * Visual em tempo real
+  * Barra de força da senha
+  * Toggle de visibilidade
+```
 
-## Regras Adicionais
-- Todos os campos são validados quando o formulário é submetido.
-- A validação é feita ao submeter o formulário, e o formulário não é enviado até que todos os campos estejam válidos.
-- Os campos `Telefone`, `Data de Nascimento` e `Comentário` aceitam entradas com formatação específica, conforme descrito nas regras acima.
+### Comentário
+```javascript
+- Tipo: Textarea
+- Obrigatório: Não
+- Validações:
+  * Máximo 250 caracteres
+- Feedback: 
+  * Contador de caracteres em tempo real
+  * Mensagem de erro quando excede o limite
+```
 
-## Estilos
-- As mensagens de erro são exibidas em vermelho e as de sucesso em verde.
-- O formulário tem uma aparência limpa, com bordas arredondadas e um fundo branco.
+## 🎯 Comportamentos Gerais
 
-## Tecnologias Usadas
-- **React**: Para a construção do formulário.
-- **CSS**: Para a estilização do formulário e das mensagens.
+### Validação em Tempo Real
+```javascript
+- Validação ocorre durante a digitação
+- Feedback visual imediato
+- Mensagens de erro específicas
+```
 
-## Como Rodar o Formulário na Web
+### Estados do Campo
+```javascript
+- Normal: Estado inicial
+- Sucesso: Campo válido (borda verde)
+- Erro: Campo inválido (borda vermelha)
+```
 
-### Passo 1: Clonar o Repositório
-Caso ainda não tenha o código do formulário, siga os seguintes passos para clonar o repositório para o seu computador:
+### Botões
+```javascript
+1. Cadastrar
+   - Submete o formulário
+   - Valida todos os campos obrigatórios
+   - Exibe mensagem de sucesso ou erro
 
-1. Abra o terminal.
-2. Clone o repositório do projeto com o comando:
+2. Limpar
+   - Reseta todos os campos
+   - Limpa mensagens de erro
+   - Reseta medidor de força da senha
+```
 
+### Mensagens
+```javascript
+- Sucesso: ✅ Cadastro realizado com sucesso!
+- Erro: ⚠️ Por favor, preencha todos os campos obrigatórios.
+```
 
-git clone <URL_DO_REPOSITORIO>
+## 🔧 Detalhes Técnicos
 
-3. Entre no diretório do projeto:
-cd <NOME_DO_REPOSITORIO>
+### RegEx Utilizadas
+```javascript
+const REGEX = {
+  email: /.+@.+\..+/,
+  telefone: /^\(\d{2}\)\s\d{4,5}-\d{4}$/,
+  nascimento: /^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/
+};
+```
 
-### Passo 2: Instalar as Dependências
-Dentro do diretório do projeto, instale as dependências usando o npm:
-`npm install`
+### Formatadores
+```javascript
+const formatters = {
+  telefone: (value) => {
+    // Remove tudo que não for número
+    const numbers = value.replace(/\D/g, "");
+    // Limita a 11 dígitos
+    const truncated = numbers.slice(0, 11);
+    // Aplica a máscara
+    if (truncated.length <= 2) return truncated;
+    if (truncated.length <= 7) {
+      return `(${truncated.slice(0, 2)}) ${truncated.slice(2)}`;
+    }
+    return `(${truncated.slice(0, 2)}) ${truncated.slice(2, 7)}-${truncated.slice(7)}`;
+  },
 
-### Passo 3: Iniciar o Servidor
-Após a instalação das dependências, inicie o servidor de desenvolvimento para rodar o projeto localmente:
-`npm start`
+  nascimento: (value) => {
+    // Remove tudo que não for número
+    const numbers = value.replace(/\D/g, "");
+    // Limita a 8 dígitos
+    const truncated = numbers.slice(0, 8);
+    // Aplica a máscara
+    if (truncated.length <= 2) return truncated;
+    if (truncated.length <= 4) {
+      return `${truncated.slice(0, 2)}/${truncated.slice(2)}`;
+    }
+    return `${truncated.slice(0, 2)}/${truncated.slice(2, 4)}/${truncated.slice(4)}`;
+  }
+};
+```
 
-### Passo 4: Acessar o Formulário na Web
-Agora que o servidor está rodando, você pode acessar o formulário diretamente no seu navegador, indo até o endereço:
+## 📚 Como Usar
 
-http://localhost:3000
+1. Clone o repositório
+2. Instale as dependências:
+```bash
+npm install
+```
 
----
-Este documento descreve as regras de validação do formulário de cadastro. Por favor, siga as regras mencionadas para garantir a correta validação de todos os campos.
+3. Execute o projeto:
+```bash
+npm start
+```
+
+## 🤝 Contribuindo
+
+1. Faça o fork do projeto
+2. Crie sua feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
