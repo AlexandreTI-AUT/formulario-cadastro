@@ -23,27 +23,44 @@ const INITIAL_FORM_STATE = {
 
 const REGEX = {
   email: /.+@.+\..+/,
-  telefone: /^(?:\(\d{2}\)\s?\d{4,5}-\d{4}|\d{11})$/,
-  nascimento: /^(?:\d{2}\/\d{2}\/\d{4}|\d{8})$/,
+  telefone: /^\(\d{2}\)\s\d{4,5}-\d{4}$/,
+  nascimento: /^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
 };
 
 const formatters = {
   telefone: (value) => {
+    // Remove tudo que não for número
     const numbers = value.replace(/\D/g, "");
-    if (numbers.length <= 2) return numbers;
-    if (numbers.length <= 7) {
-      return numbers.replace(/(\d{2})(\d{5})/, "($1) $2");
+
+    // Limita a 11 dígitos
+    const truncated = numbers.slice(0, 11);
+
+    // Aplica a máscara
+    if (truncated.length <= 2) return truncated;
+    if (truncated.length <= 7) {
+      return `(${truncated.slice(0, 2)}) ${truncated.slice(2)}`;
     }
-    return numbers.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+    return `(${truncated.slice(0, 2)}) ${truncated.slice(
+      2,
+      7
+    )}-${truncated.slice(7)}`;
   },
 
   nascimento: (value) => {
+    // Remove tudo que não for número
     const numbers = value.replace(/\D/g, "");
-    if (numbers.length <= 2) return numbers;
-    if (numbers.length <= 4) {
-      return numbers.replace(/(\d{2})(\d{2})/, "$1/$2");
+
+    // Limita a 8 dígitos
+    const truncated = numbers.slice(0, 8);
+
+    // Aplica a máscara
+    if (truncated.length <= 2) return truncated;
+    if (truncated.length <= 4) {
+      return `${truncated.slice(0, 2)}/${truncated.slice(2)}`;
     }
-    return numbers.replace(/(\d{2})(\d{2})(\d{4})/, "$1/$2/$3");
+    return `${truncated.slice(0, 2)}/${truncated.slice(2, 4)}/${truncated.slice(
+      4
+    )}`;
   },
 };
 
@@ -66,9 +83,52 @@ const validators = {
     if (value.length < 6) return "Senha deve ter pelo menos 6 caracteres";
     return "";
   },
-  telefone: (value) => (!REGEX.telefone.test(value) ? "Telefone inválido" : ""),
-  nascimento: (value) =>
-    !REGEX.nascimento.test(value) ? "Data de nascimento inválida" : "",
+  telefone: (value) => {
+    if (!value) return "Telefone é obrigatório";
+    if (!REGEX.telefone.test(value)) return "Telefone inválido";
+    return "";
+  },
+
+  nascimento: (value) => {
+    if (!value) return "Data de nascimento é obrigatória";
+    if (!REGEX.nascimento.test(value)) return "Data de nascimento inválida";
+
+    // Validação adicional para data
+    const [dia, mes, ano] = value.split("/").map(Number);
+    const data = new Date(ano, mes - 1, dia);
+
+    // Verifica se é uma data válida
+    if (
+      data.getFullYear() !== ano ||
+      data.getMonth() !== mes - 1 ||
+      data.getDate() !== dia
+    ) {
+      return "Data de nascimento inválida";
+    }
+
+    // Verifica se a data não é futura
+    if (data > new Date()) {
+      return "Data de nascimento não pode ser futura";
+    }
+
+    // Verifica idade mínima (opcional)
+    const hoje = new Date();
+    const idade = hoje.getFullYear() - data.getFullYear();
+    const mesAtual = hoje.getMonth();
+    const diaAtual = hoje.getDate();
+    const mesNasc = data.getMonth();
+    const diaNasc = data.getDate();
+
+    if (
+      idade < 13 ||
+      (idade === 13 &&
+        (mesAtual < mesNasc || (mesAtual === mesNasc && diaAtual < diaNasc)))
+    ) {
+      return "Idade mínima permitida é 13 anos";
+    }
+
+    return "";
+  },
   genero: (value) => (!value ? "Selecione um gênero" : ""),
   comentario: (value) =>
     value.length > 250 ? "Comentário excedeu o limite de 250 caracteres" : "",
@@ -255,6 +315,12 @@ const CadastroForm = () => {
               <div className="input-mask">(XX) XXXXX-XXXX</div>
             )}
           </div>
+          {(touched.telefone || submitted) && errors.telefone && (
+            <span>{errors.telefone}</span>
+          )}
+        </div>
+
+        <div>
           <label>
             Data de Nascimento: <span className="required">*</span>
           </label>
