@@ -222,7 +222,7 @@ const CadastroForm = () => {
   return (
     <div className="container">
       <form onSubmit={handleSubmit} className="formulario">
-        <h1>Cadastro</h1>
+        <h1>Criar Conta</h1>
 
         <div>
           <label>
