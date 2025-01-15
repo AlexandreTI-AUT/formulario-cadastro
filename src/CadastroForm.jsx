@@ -19,6 +19,7 @@ const INITIAL_FORM_STATE = {
   genero: "",
   senha: "",
   comentario: "",
+  termos: false,
 };
 
 const REGEX = {
@@ -29,13 +30,8 @@ const REGEX = {
 
 const formatters = {
   telefone: (value) => {
-    // Remove tudo que não for número
     const numbers = value.replace(/\D/g, "");
-
-    // Limita a 11 dígitos
     const truncated = numbers.slice(0, 11);
-
-    // Aplica a máscara
     if (truncated.length <= 2) return truncated;
     if (truncated.length <= 7) {
       return `(${truncated.slice(0, 2)}) ${truncated.slice(2)}`;
@@ -47,13 +43,8 @@ const formatters = {
   },
 
   nascimento: (value) => {
-    // Remove tudo que não for número
     const numbers = value.replace(/\D/g, "");
-
-    // Limita a 8 dígitos
     const truncated = numbers.slice(0, 8);
-
-    // Aplica a máscara
     if (truncated.length <= 2) return truncated;
     if (truncated.length <= 4) {
       return `${truncated.slice(0, 2)}/${truncated.slice(2)}`;
@@ -64,14 +55,13 @@ const formatters = {
   },
 };
 
-// Função para calcular força da senha
 const calcularForcaSenha = (senha) => {
   let forca = 0;
-  if (senha.length >= 6) forca++; // Comprimento mínimo
-  if (senha.match(/[A-Z]/)) forca++; // Letra maiúscula
-  if (senha.match(/[a-z]/)) forca++; // Letra minúscula
-  if (senha.match(/[0-9]/)) forca++; // Números
-  if (senha.match(/[^A-Za-z0-9]/)) forca++; // Caracteres especiais
+  if (senha.length >= 6) forca++;
+  if (senha.match(/[A-Z]/)) forca++;
+  if (senha.match(/[a-z]/)) forca++;
+  if (senha.match(/[0-9]/)) forca++;
+  if (senha.match(/[^A-Za-z0-9]/)) forca++;
   return forca;
 };
 
@@ -80,7 +70,8 @@ const validators = {
   email: (value) => (!REGEX.email.test(value) ? "Email inválido" : ""),
   senha: (value) => {
     if (!value) return "Senha é obrigatória";
-    if (value.length < 6) return "Senha deve ter pelo menos 6 caracteres";
+    if (value.length < 6) return "Senha deve ter exatamente 6 caracteres";
+    if (value.length > 6) return "Senha não pode ter mais de 6 caracteres";
     return "";
   },
   telefone: (value) => {
@@ -88,16 +79,11 @@ const validators = {
     if (!REGEX.telefone.test(value)) return "Telefone inválido";
     return "";
   },
-
   nascimento: (value) => {
     if (!value) return "Data de nascimento é obrigatória";
     if (!REGEX.nascimento.test(value)) return "Data de nascimento inválida";
-
-    // Validação adicional para data
     const [dia, mes, ano] = value.split("/").map(Number);
     const data = new Date(ano, mes - 1, dia);
-
-    // Verifica se é uma data válida
     if (
       data.getFullYear() !== ano ||
       data.getMonth() !== mes - 1 ||
@@ -105,20 +91,15 @@ const validators = {
     ) {
       return "Data de nascimento inválida";
     }
-
-    // Verifica se a data não é futura
     if (data > new Date()) {
       return "Data de nascimento não pode ser futura";
     }
-
-    // Verifica idade mínima (opcional)
     const hoje = new Date();
     const idade = hoje.getFullYear() - data.getFullYear();
     const mesAtual = hoje.getMonth();
     const diaAtual = hoje.getDate();
     const mesNasc = data.getMonth();
     const diaNasc = data.getDate();
-
     if (
       idade < 13 ||
       (idade === 13 &&
@@ -126,16 +107,18 @@ const validators = {
     ) {
       return "Idade mínima permitida é 13 anos";
     }
-
     return "";
   },
   genero: (value) => (!value ? "Selecione um gênero" : ""),
   comentario: (value) =>
     value.length > 250 ? "Comentário excedeu o limite de 250 caracteres" : "",
+  termos: (value) =>
+    !value
+      ? "Você deve aceitar os Termos de Uso e a Política de Privacidade"
+      : "",
 };
 
 const CadastroForm = () => {
-  // Estados
   const [form, setForm] = useState(INITIAL_FORM_STATE);
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -143,8 +126,8 @@ const CadastroForm = () => {
   const [forcaSenha, setForcaSenha] = useState(0);
   const [touched, setTouched] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const [aceitaTermos, setAceitaTermos] = useState(false);
 
-  // Funções
   const validate = () => {
     const newErrors = {};
     Object.keys(form).forEach((field) => {
@@ -160,12 +143,20 @@ const CadastroForm = () => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
+    if (name === "senha" && value.length > 6) {
+      return; // Não atualiza o estado se a senha tiver mais de 6 caracteres
+    }
+    const newValue = type === "checkbox" ? checked : value;
     const formatter = formatters[name];
-    const formattedValue = formatter ? formatter(value) : value;
+    const formattedValue = formatter ? formatter(newValue) : newValue;
 
     setForm((prev) => ({ ...prev, [name]: formattedValue }));
     setTouched((prev) => ({ ...prev, [name]: true }));
+
+    if (name === "termos") {
+      setAceitaTermos(checked);
+    }
 
     const error = validateField(name, formattedValue);
     setErrors((prev) => ({ ...prev, [name]: error }));
@@ -216,6 +207,7 @@ const CadastroForm = () => {
     setSubmitted(false);
     setTouched({});
     setForcaSenha(0);
+    setAceitaTermos(false);
   };
 
   const getForcaSenhaText = () => {
@@ -292,7 +284,6 @@ const CadastroForm = () => {
           <label>
             Telefone (Brasil): <span className="required">*</span>
           </label>
-
           <div className="input-container">
             <FaPhone className="input-icon" />
             <input
@@ -407,6 +398,7 @@ const CadastroForm = () => {
             <input
               type={showPassword ? "text" : "password"}
               name="senha"
+              maxlength="6"
               value={form.senha}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -445,6 +437,23 @@ const CadastroForm = () => {
           )}
           {(touched.senha || submitted) && errors.senha && (
             <span>{errors.senha}</span>
+          )}
+        </div>
+
+        <div>
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              name="termos"
+              checked={aceitaTermos}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            Li e aceito os <a href="/termos-de-uso">Termos de Uso</a> e a{" "}
+            <a href="/politica-de-privacidade">Política de Privacidade</a>
+          </label>
+          {(touched.termos || submitted) && errors.termos && (
+            <span>{errors.termos}</span>
           )}
         </div>
 
