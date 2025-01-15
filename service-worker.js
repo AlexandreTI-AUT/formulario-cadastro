@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/formulario-cadastro/precache-manifest.a8e8b4c27c6c62cfb56dd4449daa1596.js"
+  "/formulario-cadastro/precache-manifest.c08f48e4ff954ca6750ca8b4fd27d5af.js"
 );
 
 self.addEventListener('message', (event) => {
