@@ -34,12 +34,12 @@ const formatters = {
     const truncated = numbers.slice(0, 11);
     if (truncated.length <= 2) return truncated;
     if (truncated.length <= 7) {
-      return `(${truncated.slice(0, 2)}) ${truncated.slice(2)}`;
+      return `(${truncated.slice(0, 2)}) ${truncated.slice(2, 7)}`;
     }
     return `(${truncated.slice(0, 2)}) ${truncated.slice(
       2,
       7
-    )}-${truncated.slice(7)}`;
+    )}-${truncated.slice(7, 11)}`;
   },
 
   nascimento: (value) => {
@@ -47,10 +47,11 @@ const formatters = {
     const truncated = numbers.slice(0, 8);
     if (truncated.length <= 2) return truncated;
     if (truncated.length <= 4) {
-      return `${truncated.slice(0, 2)}/${truncated.slice(2)}`;
+      return `${truncated.slice(0, 2)}/${truncated.slice(2, 4)}`;
     }
     return `${truncated.slice(0, 2)}/${truncated.slice(2, 4)}/${truncated.slice(
-      4
+      4,
+      8
     )}`;
   },
 };
@@ -126,7 +127,6 @@ const CadastroForm = () => {
   const [forcaSenha, setForcaSenha] = useState(0);
   const [touched, setTouched] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  const [aceitaTermos, setAceitaTermos] = useState(false);
 
   const validate = () => {
     const newErrors = {};
@@ -153,10 +153,6 @@ const CadastroForm = () => {
 
     setForm((prev) => ({ ...prev, [name]: formattedValue }));
     setTouched((prev) => ({ ...prev, [name]: true }));
-
-    if (name === "termos") {
-      setAceitaTermos(checked);
-    }
 
     const error = validateField(name, formattedValue);
     setErrors((prev) => ({ ...prev, [name]: error }));
@@ -207,7 +203,10 @@ const CadastroForm = () => {
     setSubmitted(false);
     setTouched({});
     setForcaSenha(0);
-    setAceitaTermos(false);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const getForcaSenhaText = () => {
@@ -215,15 +214,12 @@ const CadastroForm = () => {
     return textos[forcaSenha - 1] || "";
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
   return (
     <div className="container">
       <form onSubmit={handleSubmit} className="formulario">
         <h1>Criar Conta</h1>
 
+        {/* Campo Nome */}
         <div>
           <label>
             Nome: <span className="required">*</span>
@@ -248,10 +244,11 @@ const CadastroForm = () => {
             />
           </div>
           {(touched.nome || submitted) && errors.nome && (
-            <span>{errors.nome}</span>
+            <span className="error-message">{errors.nome}</span>
           )}
         </div>
 
+        {/* Campo Email */}
         <div>
           <label>
             Email: <span className="required">*</span>
@@ -276,13 +273,14 @@ const CadastroForm = () => {
             />
           </div>
           {(touched.email || submitted) && errors.email && (
-            <span>{errors.email}</span>
+            <span className="error-message">{errors.email}</span>
           )}
         </div>
 
+        {/* Campo Telefone */}
         <div>
           <label>
-            Telefone (Brasil): <span className="required">*</span>
+            Telefone: <span className="required">*</span>
           </label>
           <div className="input-container">
             <FaPhone className="input-icon" />
@@ -292,7 +290,7 @@ const CadastroForm = () => {
               value={form.telefone}
               onChange={handleChange}
               onBlur={handleBlur}
-              placeholder=""
+              placeholder="(XX) XXXXX-XXXX"
               data-testid="input-telefone"
               className={
                 touched.telefone || submitted
@@ -302,15 +300,13 @@ const CadastroForm = () => {
                   : ""
               }
             />
-            {!form.telefone && (
-              <div className="input-mask">(XX) XXXXX-XXXX</div>
-            )}
           </div>
           {(touched.telefone || submitted) && errors.telefone && (
-            <span>{errors.telefone}</span>
+            <span className="error-message">{errors.telefone}</span>
           )}
         </div>
 
+        {/* Campo Data de Nascimento */}
         <div>
           <label>
             Data de Nascimento: <span className="required">*</span>
@@ -323,7 +319,7 @@ const CadastroForm = () => {
               value={form.nascimento}
               onChange={handleChange}
               onBlur={handleBlur}
-              placeholder=""
+              placeholder="DD/MM/AAAA"
               data-testid="input-nascimento"
               className={
                 touched.nascimento || submitted
@@ -333,13 +329,13 @@ const CadastroForm = () => {
                   : ""
               }
             />
-            {!form.nascimento && <div className="input-mask">DD/MM/AAAA</div>}
           </div>
           {(touched.nascimento || submitted) && errors.nascimento && (
-            <span>{errors.nascimento}</span>
+            <span className="error-message">{errors.nascimento}</span>
           )}
         </div>
 
+        {/* Campo Gênero */}
         <div>
           <label>
             Gênero: <span className="required">*</span>
@@ -360,10 +356,11 @@ const CadastroForm = () => {
             ))}
           </div>
           {(touched.genero || submitted) && errors.genero && (
-            <span>{errors.genero}</span>
+            <span className="error-message">{errors.genero}</span>
           )}
         </div>
 
+        {/* Campo Comentário */}
         <div>
           <label>Comentário (até 250 caracteres):</label>
           <div className="input-container">
@@ -385,10 +382,11 @@ const CadastroForm = () => {
             {form.comentario.length}/250 caracteres
           </div>
           {(touched.comentario || submitted) && errors.comentario && (
-            <span>{errors.comentario}</span>
+            <span className="error-message">{errors.comentario}</span>
           )}
         </div>
 
+        {/* Campo Senha */}
         <div>
           <label>
             Senha: <span className="required">*</span>
@@ -398,7 +396,7 @@ const CadastroForm = () => {
             <input
               type={showPassword ? "text" : "password"}
               name="senha"
-              maxlength="6"
+              maxLength="6"
               value={form.senha}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -436,16 +434,17 @@ const CadastroForm = () => {
             </div>
           )}
           {(touched.senha || submitted) && errors.senha && (
-            <span>{errors.senha}</span>
+            <span className="error-message">{errors.senha}</span>
           )}
         </div>
 
+        {/* Campo Termos */}
         <div>
           <label className="checkbox-label">
             <input
               type="checkbox"
               name="termos"
-              checked={aceitaTermos}
+              checked={form.termos}
               onChange={handleChange}
               onBlur={handleBlur}
             />
@@ -453,10 +452,11 @@ const CadastroForm = () => {
             <a href="/politica-de-privacidade">Política de Privacidade</a>
           </label>
           {(touched.termos || submitted) && errors.termos && (
-            <span>{errors.termos}</span>
+            <span className="error-message">{errors.termos}</span>
           )}
         </div>
 
+        {/* Botões */}
         <div className="button-group">
           <button
             type="button"
@@ -471,6 +471,7 @@ const CadastroForm = () => {
           </button>
         </div>
 
+        {/* Mensagem de sucesso/erro */}
         {message && (
           <div
             className={
