@@ -239,7 +239,7 @@ const CadastroForm = () => {
               value={form.nome}
               onChange={handleChange}
               onBlur={handleBlur}
-              placeholder=""
+              placeholder="Digite seu nome completo"
               data-testid="input-nome"
               className={
                 touched.nome || submitted
@@ -268,7 +268,7 @@ const CadastroForm = () => {
               value={form.email}
               onChange={handleChange}
               onBlur={handleBlur}
-              placeholder=""
+              placeholder="Digite seu e-mail"
               data-testid="input-email"
               className={
                 touched.email || submitted
@@ -378,7 +378,7 @@ const CadastroForm = () => {
               onChange={handleChange}
               onBlur={handleBlur}
               maxLength={250}
-              placeholder=""
+              placeholder="Digite seu comentário"
               data-testid="input-comentario"
               className={
                 touched.comentario && errors.comentario ? "input-error" : ""
@@ -407,7 +407,7 @@ const CadastroForm = () => {
               value={form.senha}
               onChange={handleChange}
               onBlur={handleBlur}
-              placeholder=""
+              placeholder="Digite sua senha"
               data-testid="input-senha"
               className={
                 touched.senha || submitted
