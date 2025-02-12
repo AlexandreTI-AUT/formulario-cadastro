@@ -75,7 +75,9 @@ const validators = {
   },
   email: (value) => (!REGEX.email.test(value) ? "Email inválido" : ""),
   senha: (value) => {
-    if (!value) return "Senha é obrigatória";
+    if (!value || !value.trim()) {
+      return "Senha é obrigatória";
+    }
     if (value.length < 6) return "Senha deve ter exatamente 6 caracteres";
     if (value.length > 6) return "Senha não pode ter mais de 6 caracteres";
     return "";
