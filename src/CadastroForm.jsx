@@ -67,7 +67,12 @@ const calcularForcaSenha = (senha) => {
 };
 
 const validators = {
-  nome: (value) => (!value ? "Nome é obrigatório" : ""),
+  nome: (value) => {
+    if (!value || !value.trim()) {
+      return "Nome é obrigatório";
+    }
+    return "";
+  },
   email: (value) => (!REGEX.email.test(value) ? "Email inválido" : ""),
   senha: (value) => {
     if (!value) return "Senha é obrigatória";
